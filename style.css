@@ -1,0 +1,25 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #8ecfdf;
+  overflow-x: hidden;
+}
+
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  padding: 2rem 1.5rem;
+  z-index: 10;
+}
+
+.ocean {
+  margin-left: 200px;
+  height: 54675px;
+}
