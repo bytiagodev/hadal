@@ -1,15 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hadal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <aside id="hud"></aside>
-  <main class="ocean"></main>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hadal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <aside id="hud" aria-live="off">
+      <div class="hud-row hud-row--primary">
+        <span class="hud-label">DEPTH</span>
+        <span class="hud-value hud-value--depth" id="hud-depth">0 m</span>
+      </div>
+      <div class="hud-rule"></div>
+      <div class="hud-row">
+        <span class="hud-label">PRESSURE</span>
+        <span class="hud-value hud-value--pressure" id="hud-pressure"
+          >1.0 atm</span
+        >
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">TEMP</span>
+        <span class="hud-value hud-value--temp" id="hud-temp">20.0 °C</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">LIGHT</span>
+        <span class="hud-value hud-value--light" id="hud-light">100 %</span>
+      </div>
+    </aside>
+    <main class="ocean"></main>
+    <script src="script.js"></script>
+  </body>
 </html>

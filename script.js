@@ -30,6 +30,25 @@ function getColour(depth) {
   return COLOUR_STOPS[COLOUR_STOPS.length - 1];
 }
 
+function getPressure(depth) {
+  return 1 + depth / 10;
+}
+
+function getTemperature(depth) {
+  if (depth <= 200) {
+    return 20 - (depth / 200) * 16;
+  } else if (depth <= 1000) {
+    return 4 - ((depth - 200) / 800) * 1;
+  } else {
+    return 3 - ((depth - 1000) / 9935) * 1.5;
+  }
+}
+
+function getLight(depth) {
+  if (depth >= 1000) return 0;
+  return Math.round(100 * Math.exp(-depth / 150));
+}
+
 function getDepth() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   const raw = (window.scrollY / scrollable) * DEPTH_MAX;
@@ -41,7 +60,14 @@ function tick() {
   state.depth = getDepth();
   const col = getColour(state.depth);
   document.body.style.background = `rgb(${col.r}, ${col.g}, ${col.b})`;
-  console.log(state.depth.toFixed(1) + "m");
+  document.getElementById("hud-depth").textContent =
+    Math.round(state.depth) + "\u2009m";
+  document.getElementById("hud-pressure").textContent =
+    getPressure(state.depth).toFixed(1) + "\u2009atm";
+  document.getElementById("hud-temp").textContent =
+    getTemperature(state.depth).toFixed(1) + "\u2009°C";
+  document.getElementById("hud-light").textContent =
+    getLight(state.depth) + "\u2009%";
 }
 
 tick();

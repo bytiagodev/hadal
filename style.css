@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -7,19 +9,94 @@
 body {
   background: #8ecfdf;
   overflow-x: hidden;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
 }
+
+/* --- HUD -------------------------------------------------------------
+   A self-lit instrument cluster, not text over water. The panel is an
+   opaque substrate at a fixed colour, so contrast never depends on the
+   depth behind it. Top-left: content enters from the bottom of the
+   viewport as you descend, and mobile browser chrome is bottom-anchored.
+   See HUD.md for the full rationale.
+--------------------------------------------------------------------- */
 
 #hud {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 100vh;
-  padding: 2rem 1.5rem;
+  top: max(20px, env(safe-area-inset-top));
+  left: max(20px, env(safe-area-inset-left));
   z-index: 10;
+  width: 172px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #0a0f11;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 5px;
+  box-shadow:
+    0 8px 28px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+.hud-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hud-rule {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.hud-label {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: #7d9198;
+}
+
+/* Values reserve their worst-case width so cells never resize mid-scroll.
+   tabular-nums fixes glyph WIDTH; min-width fixes glyph COUNT. */
+.hud-value {
+  display: inline-block;
+  text-align: right;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  color: #d8e4e6;
+}
+
+.hud-value--depth {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffb454;
+  min-width: 7.5ch; /* 10935 m */
+}
+.hud-value--pressure {
+  min-width: 10.5ch; /* 1094.5 atm */
+}
+.hud-value--temp {
+  min-width: 8ch; /* -1.5 °C */
+}
+.hud-value--light {
+  min-width: 6ch; /* 100 % */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --- Ocean -----------------------------------------------------------
+   Full-bleed. The HUD floats over it rather than reserving a column, so
+   creatures can use the entire viewport width and are never clipped by
+   an invisible margin.
+--------------------------------------------------------------------- */
+
 .ocean {
-  margin-left: 200px;
   height: 54675px;
 }
