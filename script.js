@@ -2,8 +2,33 @@ const DEPTH_MAX = 10935;
 const PX_PER_METRE = 5;
 
 const state = {
-  depth: 0
+  depth: 0,
 };
+
+const COLOUR_STOPS = [
+  { depth: 0, r: 142, g: 207, b: 223 },
+  { depth: 200, r: 46, g: 125, b: 158 },
+  { depth: 1000, r: 18, g: 43, b: 69 },
+  { depth: 4000, r: 7, g: 15, b: 30 },
+  { depth: 6000, r: 3, g: 6, b: 14 },
+  { depth: 10935, r: 1, g: 2, b: 4 },
+];
+
+function getColour(depth) {
+  for (let i = 0; i < COLOUR_STOPS.length - 1; i++) {
+    const a = COLOUR_STOPS[i];
+    const b = COLOUR_STOPS[i + 1];
+    if (depth >= a.depth && depth <= b.depth) {
+      const t = (depth - a.depth) / (b.depth - a.depth);
+      return {
+        r: Math.round(a.r + t * (b.r - a.r)),
+        g: Math.round(a.g + t * (b.g - a.g)),
+        b: Math.round(a.b + t * (b.b - a.b)),
+      };
+    }
+  }
+  return COLOUR_STOPS[COLOUR_STOPS.length - 1];
+}
 
 function getDepth() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -14,7 +39,9 @@ function getDepth() {
 function tick() {
   requestAnimationFrame(tick);
   state.depth = getDepth();
-  console.log(state.depth.toFixed(1) + 'm');
+  const col = getColour(state.depth);
+  document.body.style.background = `rgb(${col.r}, ${col.g}, ${col.b})`;
+  console.log(state.depth.toFixed(1) + "m");
 }
 
 tick();
