@@ -17,7 +17,7 @@ Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build step.
 | 1 | Scroll-to-depth engine | ✅ |
 | 2 | Background colour interpolation | ✅ |
 | 3 | HUD instruments | ✅ |
-| 4 | Creature and landmark placement | ⬜ |
+| 4 | Creature and landmark placement | ✅ |
 | 5 | Asset generation and wiring | ⬜ |
 | 6 | Drift animation and bioluminescent glow | ⬜ |
 | 7 | Performance and lazy loading | ⬜ |

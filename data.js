@@ -1,0 +1,65 @@
+const CREATURES = [
+  { name: "Portuguese man o' war", id: "portuguese-man-o-war", depth: 0,   zone: "sunlight", bio: false, size: "m",  fact: "Not one animal but a colony of specialised polyps that cannot survive apart." },
+  { name: "Flying fish",           id: "flying-fish",          depth: 5,   zone: "sunlight", bio: false, size: "s",  fact: "Glides more than 200 metres in a single leap to escape what is chasing it." },
+  { name: "Clownfish",             id: "clownfish",            depth: 12,  zone: "sunlight", bio: false, size: "xs", fact: "A coat of mucus makes it immune to the anemone stings that kill other fish." },
+  { name: "Green sea turtle",      id: "green-sea-turtle",     depth: 20,  zone: "sunlight", bio: false, size: "l",  fact: "The only sea turtle that grazes, feeding on seagrass as an adult." },
+  { name: "Leafy sea dragon",      id: "leafy-sea-dragon",     depth: 25,  zone: "sunlight", bio: false, size: "s",  fact: "The leafy flaps are camouflage, not fins. It appears to drift rather than swim." },
+  { name: "Sea otter",             id: "sea-otter",            depth: 30,  zone: "sunlight", bio: false, size: "m",  fact: "No blubber. It survives on the densest fur of any animal, about a million hairs per square inch." },
+  { name: "Moon jellyfish",        id: "moon-jellyfish",       depth: 35,  zone: "sunlight", bio: false, size: "m",  fact: "No brain, no heart, no blood. A loose net of nerves runs the whole animal." },
+  { name: "Common octopus",        id: "common-octopus",       depth: 50,  zone: "sunlight", bio: false, size: "m",  fact: "Three hearts, blue blood, and two thirds of its neurons in its arms." },
+  { name: "Bottlenose dolphin",    id: "bottlenose-dolphin",   depth: 60,  zone: "sunlight", bio: false, size: "l",  fact: "Sleeps one half of the brain at a time, with one eye open." },
+  { name: "Giant manta ray",       id: "giant-manta-ray",      depth: 70,  zone: "sunlight", bio: false, size: "xl", fact: "Up to 7 metres across, with the largest brain of any fish." },
+  { name: "Mahi-mahi",             id: "mahi-mahi",            depth: 80,  zone: "sunlight", bio: false, size: "m",  fact: "One of the fastest growing fish in the sea, over a metre in its first year." },
+  { name: "Scalloped hammerhead",  id: "scalloped-hammerhead", depth: 90,  zone: "sunlight", bio: false, size: "l",  fact: "The wide head spreads its electrical sensors, finding rays buried in sand." },
+  { name: "Blue whale",            id: "blue-whale",           depth: 100, zone: "sunlight", bio: false, size: "xl", fact: "The largest animal that has ever lived, and its call carries for hundreds of kilometres." },
+  { name: "Whale shark",           id: "whale-shark",          depth: 110, zone: "sunlight", bio: false, size: "xl", fact: "The largest fish alive. Its spot pattern is unique to the individual." },
+  { name: "Atlantic bluefin tuna", id: "atlantic-bluefin-tuna",depth: 130, zone: "sunlight", bio: false, size: "l",  fact: "Warm-blooded enough to hold its muscles above the temperature of the water." },
+  { name: "Great white shark",     id: "great-white-shark",    depth: 150, zone: "sunlight", bio: false, size: "xl", fact: "Senses the electric field of a heartbeat through pores in its snout." },
+  { name: "Ocean sunfish",         id: "ocean-sunfish",        depth: 180, zone: "sunlight", bio: false, size: "xl", fact: "The heaviest bony fish, up to two tonnes. It hatches at the size of a pinhead." },
+
+  { name: "Chambered nautilus",    id: "chambered-nautilus",    depth: 250,  zone: "twilight", bio: false, size: "s",  fact: "Its shell design is roughly 400 million years old. Below about 800m it implodes." },
+  { name: "Humboldt squid",        id: "humboldt-squid",        depth: 300,  zone: "twilight", bio: false, size: "l",  fact: "Hunts in packs of a thousand or more, flashing red and white as it goes." },
+  { name: "Bloodybelly comb jelly",id: "bloodybelly-comb-jelly",depth: 400,  zone: "twilight", bio: true,  size: "s",  fact: "Its red stomach hides the glow of the luminous prey it has swallowed." },
+  { name: "Emperor penguin",       id: "emperor-penguin",       depth: 450,  zone: "twilight", bio: false, size: "m",  fact: "Dives deeper than any other bird and holds its breath for over twenty minutes." },
+  { name: "Lanternfish",           id: "lanternfish",           depth: 500,  zone: "twilight", bio: true,  size: "xs", fact: "Perhaps the most numerous vertebrate on earth. Rows of light organs line its belly." },
+  { name: "Hatchetfish",           id: "hatchetfish",           depth: 600,  zone: "twilight", bio: true,  size: "xs", fact: "Mirrored sides make it vanish edge on. Belly lights erase its shadow from below." },
+  { name: "Vampire squid",         id: "vampire-squid",         depth: 700,  zone: "twilight", bio: true,  size: "s",  fact: "Neither vampire nor squid. It has no ink, and sprays glowing mucus instead." },
+  { name: "Barreleye",             id: "barreleye",             depth: 750,  zone: "twilight", bio: false, size: "xs", fact: "A transparent head. The green tube eyes rotate inside it to look up through its own skull." },
+  { name: "Strawberry squid",      id: "strawberry-squid",      depth: 800,  zone: "twilight", bio: true,  size: "s",  fact: "One large eye watches upward for shadows, one small eye watches downward for flashes." },
+  { name: "Cookiecutter shark",    id: "cookiecutter-shark",    depth: 850,  zone: "twilight", bio: true,  size: "s",  fact: "Takes round plugs of flesh out of whales, sharks, and occasionally submarines." },
+  { name: "Giant squid",           id: "giant-squid",           depth: 900,  zone: "twilight", bio: false, size: "xl", fact: "Eyes the size of dinner plates, the largest in the animal kingdom." },
+
+  { name: "Sperm whale",           id: "sperm-whale",           depth: 1000, zone: "midnight", bio: false, size: "xl", fact: "Hunts squid in total darkness using the loudest sound any animal makes." },
+  { name: "Atolla jellyfish",      id: "atolla-jellyfish",      depth: 1200, zone: "midnight", bio: true,  size: "s",  fact: "Under attack it fires a spiral of blue light, calling in something bigger to eat its attacker." },
+  { name: "Humpback anglerfish",   id: "humpback-anglerfish",   depth: 1500, zone: "midnight", bio: true,  size: "s",  fact: "The lure glows with farmed bacteria. The tiny male fuses to the female permanently." },
+  { name: "Barbeled dragonfish",   id: "barbeled-dragonfish",   depth: 1700, zone: "midnight", bio: true,  size: "s",  fact: "Produces red light that almost nothing else down here can see. A private searchlight." },
+  { name: "Fangtooth",             id: "fangtooth",             depth: 2000, zone: "midnight", bio: false, size: "xs", fact: "Teeth so long they slide into sockets on either side of its brain." },
+  { name: "Giant isopod",          id: "giant-isopod",          depth: 2200, zone: "midnight", bio: false, size: "m",  fact: "A woodlouse relative the size of a cat. One in captivity went five years without eating." },
+  { name: "Gulper eel",            id: "gulper-eel",            depth: 2600, zone: "midnight", bio: true,  size: "m",  fact: "A mouth larger than the rest of its body, and a tail tip that glows pink." },
+  { name: "Dumbo octopus",         id: "dumbo-octopus",         depth: 3300, zone: "midnight", bio: false, size: "m",  fact: "Flaps ear-like fins to swim. The deepest living octopus known." },
+
+  { name: "Faceless cusk",         id: "faceless-cusk",         depth: 4100, zone: "abyss",    bio: false, size: "m",  fact: "Caught once in 1873, then not seen again for more than 140 years. Its eyes lie under the skin." },
+  { name: "Abyssal grenadier",     id: "abyssal-grenadier",     depth: 4600, zone: "abyss",    bio: false, size: "m",  fact: "The commonest fish of the abyssal plain. It smells a carcass from kilometres away." },
+  { name: "Sea pig",               id: "sea-pig",               depth: 5000, zone: "abyss",    bio: false, size: "s",  fact: "A sea cucumber that walks the mud on tube feet, in herds." },
+  { name: "Tripod fish",           id: "tripod-fish",           depth: 5600, zone: "abyss",    bio: false, size: "s",  fact: "Stands on three stiffened fin rays, facing the current, waiting for food to arrive." },
+
+  { name: "Supergiant amphipod",   id: "supergiant-amphipod",   depth: 7000, zone: "hadal",    bio: false, size: "s",  fact: "A scavenging crustacean that reaches 30cm, ten times the size of its shallow cousins." },
+  { name: "Mariana snailfish",     id: "mariana-snailfish",     depth: 8000, zone: "hadal",    bio: false, size: "s",  fact: "No scales, no swim bladder. A body soft enough that the pressure has nothing to crush." },
+  { name: "Hirondellea gigas",     id: "hirondellea-gigas",     depth: 10900,zone: "hadal",    bio: false, size: "xs", fact: "Swarms bait on the trench floor within minutes. Its gut can digest sunken wood." },
+];
+
+const ZONES = [
+  { depth: 0,    name: "Sunlight", copy: "Everything you have ever seen alive lives in the first two hundred metres." },
+  { depth: 200,  name: "Twilight", copy: "Enough light to see by, never enough to grow by. Colour starts leaving from the red end." },
+  { depth: 1000, name: "Midnight", copy: "No sunlight reaches here, and none ever has. Every light below this line was made by something alive." },
+  { depth: 4000, name: "Abyss",    copy: "Two degrees, four hundred atmospheres, and almost nothing to eat. Most of the ocean floor looks like this." },
+  { depth: 6000, name: "Hadal",    copy: "Named for the underworld. Only the trenches go this deep, and they hold less than one percent of the sea." },
+];
+
+const LANDMARKS = [
+  { depth: 332,   copy: "The deepest scuba dive on record ended here. It took fifteen minutes to descend and over thirteen hours to come back up." },
+  { depth: 3688,  copy: "Average depth of the ocean. You are now below the mean floor of the world." },
+  { depth: 3810,  copy: "Titanic." },
+  { depth: 8336,  copy: "A snailfish was filmed at this depth in a trench south of Japan. It is the deepest any fish has ever been seen, and probably close to the deepest any fish can go." },
+  { depth: 10935, copy: "The bottom of the Challenger Deep. Piccard and Walsh landed here in 1960, kicked up so much silt they could barely see, and stayed twenty minutes.\n\nEverest would fit in this trench with two kilometres of water still above the summit.\n\nNothing about this place suggests anything should live here. Things do." },
+];

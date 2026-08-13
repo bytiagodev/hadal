@@ -12,14 +12,6 @@ body {
   font-family: "IBM Plex Sans", system-ui, sans-serif;
 }
 
-/* --- HUD -------------------------------------------------------------
-   A self-lit instrument cluster, not text over water. The panel is an
-   opaque substrate at a fixed colour, so contrast never depends on the
-   depth behind it. Top-left: content enters from the bottom of the
-   viewport as you descend, and mobile browser chrome is bottom-anchored.
-   See HUD.md for the full rationale.
---------------------------------------------------------------------- */
-
 #hud {
   position: fixed;
   top: max(20px, env(safe-area-inset-top));
@@ -56,8 +48,6 @@ body {
   color: #7d9198;
 }
 
-/* Values reserve their worst-case width so cells never resize mid-scroll.
-   tabular-nums fixes glyph WIDTH; min-width fixes glyph COUNT. */
 .hud-value {
   display: inline-block;
   text-align: right;
@@ -91,12 +81,62 @@ body {
   }
 }
 
-/* --- Ocean -----------------------------------------------------------
-   Full-bleed. The HUD floats over it rather than reserving a column, so
-   creatures can use the entire viewport width and are never clipped by
-   an invisible margin.
---------------------------------------------------------------------- */
+.creature, .zone-boundary, .landmark {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
 
 .ocean {
   height: 54675px;
+  position: relative;
+}
+
+.creature {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #a9d6e5;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  width: fit-content;
+}
+
+.zone-boundary {
+  border-top: 1px solid #1a4a5e;
+  color: #1a4a5e;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding-top: 6px;
+  padding-left: 210px;
+}
+
+.zone-boundary[data-zone="midnight"] .zone-name,
+.zone-boundary[data-zone="midnight"] .zone-copy,
+.zone-boundary[data-zone="abyss"] .zone-name,
+.zone-boundary[data-zone="abyss"] .zone-copy,
+.zone-boundary[data-zone="hadal"] .zone-name,
+.zone-boundary[data-zone="hadal"] .zone-copy {
+  color: #ffb454;
+}
+
+.zone-boundary[data-zone="midnight"],
+.zone-boundary[data-zone="abyss"],
+.zone-boundary[data-zone="hadal"] {
+  border-top-color: #ffb454;
+}
+
+.zone-name {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.landmark {
+  color: #d8e4e6;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  max-width: 360px;
+  left: 50%;
+  padding-bottom: 80px;
 }

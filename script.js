@@ -1,6 +1,47 @@
 const DEPTH_MAX = 10935;
 const PX_PER_METRE = 5;
 
+function depthToY(depth) {
+  return depth * PX_PER_METRE;
+}
+
+function renderCreatures() {
+  const ocean = document.querySelector('.ocean');
+  CREATURES.forEach(creature => {
+    const el = document.createElement('div');
+    el.className = 'creature';
+    el.dataset.id = creature.id;
+    el.dataset.zone = creature.zone;
+    el.style.top = depthToY(creature.depth) + 'px';
+    el.style.left = (15 + Math.random() * 70) + '%';
+    el.textContent = creature.name;
+    ocean.appendChild(el);
+  });
+}
+
+function renderZones() {
+  const ocean = document.querySelector('.ocean');
+  ZONES.forEach(zone => {
+    const el = document.createElement('div');
+    el.className = 'zone-boundary';
+    el.dataset.zone = zone.name.toLowerCase();
+    el.style.top = depthToY(zone.depth) + 'px';
+    el.innerHTML = `<span class="zone-name">${zone.name}</span><span class="zone-copy">${zone.copy}</span>`;
+    ocean.appendChild(el);
+  });
+}
+
+function renderLandmarks() {
+  const ocean = document.querySelector('.ocean');
+  LANDMARKS.forEach(landmark => {
+    const el = document.createElement('div');
+    el.className = 'landmark';
+    el.style.top = depthToY(landmark.depth) + 'px';
+    el.innerHTML = landmark.copy.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    ocean.appendChild(el);
+  });
+}
+
 const state = {
   depth: 0,
 };
@@ -70,4 +111,7 @@ function tick() {
     getLight(state.depth) + "\u2009%";
 }
 
+renderCreatures();
+renderZones();
+renderLandmarks();
 tick();
