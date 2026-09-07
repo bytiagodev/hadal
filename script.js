@@ -110,6 +110,9 @@ function renderCreatures() {
   CREATURES.forEach((creature) => {
     const el = document.createElement("div");
     el.className = "creature";
+    if (creature.bio) {
+      el.classList.add("is-bio");
+    }
     el.dataset.id = creature.id;
     el.dataset.zone = creature.zone;
     el.style.top = depthToY(creature.depth) + "px";

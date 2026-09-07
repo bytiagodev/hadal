@@ -102,6 +102,11 @@ body {
   object-fit: contain;
 }
 
+.creature.is-bio img {
+  filter: drop-shadow(0 0 6px rgba(180, 240, 255, 0.55))
+          drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
+}
+
 .zone-boundary {
   border-top: 1px solid #1a4a5e;
   color: #1a4a5e;
