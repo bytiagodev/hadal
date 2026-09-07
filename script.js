@@ -86,6 +86,25 @@ function layoutCreatures() {
   });
 }
 
+const DRIFT_SEED = 71204221;
+const DRIFT_MIN_DURATION = 8;
+const DRIFT_MAX_DURATION = 20;
+
+function assignDriftTiming() {
+  const rand = seeded(DRIFT_SEED);
+
+  CREATURES.forEach((creature) => {
+    const el = document.querySelector('.creature[data-id="' + creature.id + '"]');
+    if (!el) return;
+
+    const duration = DRIFT_MIN_DURATION + rand() * (DRIFT_MAX_DURATION - DRIFT_MIN_DURATION);
+    const delay = -rand() * duration;
+
+    el.style.setProperty("--drift-duration", duration.toFixed(2) + "s");
+    el.style.setProperty("--drift-delay", delay.toFixed(2) + "s");
+  });
+}
+
 function renderCreatures() {
   const ocean = document.querySelector(".ocean");
   CREATURES.forEach((creature) => {
@@ -201,6 +220,7 @@ function tick() {
 initScale();
 renderCreatures();
 layoutCreatures();
+assignDriftTiming();
 window.addEventListener("resize", layoutCreatures);
 renderZones();
 renderLandmarks();

@@ -139,3 +139,23 @@ body {
   left: 50%;
   padding-bottom: 80px;
 }
+
+@keyframes drift {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.creature {
+  animation: drift var(--drift-duration, 12s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature {
+    animation: none;
+  }
+}
