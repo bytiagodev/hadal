@@ -75,36 +75,15 @@ body {
   min-width: 6ch; /* 100 % */
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+.ocean {
+  height: 54675px;
+  position: relative;
 }
 
 .zone-boundary, .landmark {
   position: absolute;
   left: 0;
   right: 0;
-}
-
-.creature {
-  position: absolute;
-  right: auto;
-}
-
-.ocean {
-  height: 54675px;
-  position: relative;
-}
-
-.creature img {
-  display: block;
-  object-fit: contain;
-}
-
-.creature.is-bio img {
-  filter: drop-shadow(0 0 6px rgba(180, 240, 255, 0.55))
-          drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
 }
 
 .zone-boundary {
@@ -145,6 +124,21 @@ body {
   padding-bottom: 80px;
 }
 
+.creature {
+  position: absolute;
+  right: auto;
+}
+
+.creature img {
+  display: block;
+  object-fit: contain;
+}
+
+.creature.is-bio img {
+  filter: drop-shadow(0 0 6px rgba(180, 240, 255, 0.55))
+          drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
+}
+
 @keyframes drift {
   0%, 100% {
     transform: translateY(0);
@@ -157,6 +151,12 @@ body {
 .creature {
   animation: drift var(--drift-duration, 12s) ease-in-out infinite;
   animation-delay: var(--drift-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,6 +5,16 @@ function depthToY(depth) {
   return depth * PX_PER_METRE;
 }
 
+// Linear congruential generator; multiplier/increment/modulus are fixed
+// constants chosen for a well-distributed sequence, not arbitrary.
+function seeded(seed) {
+  let s = seed;
+  return function () {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
 const SCALE_EXP = 0.45;
 let SCALE_LO = 0;
 let SCALE_HI = 1;
@@ -29,14 +39,6 @@ function creatureBox(creature, vw) {
 
 const LAYOUT_SEED = 20260813;
 const LAYOUT_GAP = 18;
-
-function seeded(seed) {
-  let s = seed;
-  return function () {
-    s = (s * 1664525 + 1013904223) % 4294967296;
-    return s / 4294967296;
-  };
-}
 
 function layoutCreatures() {
   const vw = document.documentElement.clientWidth;
@@ -105,6 +107,19 @@ function assignDriftTiming() {
   });
 }
 
+const imageObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        imageObserver.unobserve(img);
+      }
+    });
+  },
+  { rootMargin: "800px 0px" }
+);
+
 function renderCreatures() {
   const ocean = document.querySelector(".ocean");
   CREATURES.forEach((creature) => {
@@ -117,7 +132,8 @@ function renderCreatures() {
     el.dataset.zone = creature.zone;
     el.style.top = depthToY(creature.depth) + "px";
     const img = document.createElement("img");
-    img.src = `creatures/${creature.zone}-${creature.id}.webp`;
+    img.dataset.src = `creatures/${creature.zone}-${creature.id}.webp`;
+    imageObserver.observe(img);
     img.alt = creature.name;
     img.loading = "lazy";
     el.appendChild(img);
@@ -150,10 +166,6 @@ function renderLandmarks() {
     ocean.appendChild(el);
   });
 }
-
-const state = {
-  depth: 0,
-};
 
 const COLOUR_STOPS = [
   { depth: 0, r: 142, g: 207, b: 223 },
@@ -204,6 +216,10 @@ function getDepth() {
   const raw = (window.scrollY / scrollable) * DEPTH_MAX;
   return Math.min(raw, DEPTH_MAX);
 }
+
+const state = {
+  depth: 0,
+};
 
 function tick() {
   requestAnimationFrame(tick);
