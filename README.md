@@ -2,6 +2,10 @@
 
 # Hadal
 
+<p align="center">
+  <a href="https://bytiago.com/">🌐 <strong>bytiago.com</strong> &nbsp;•&nbsp; View my full portfolio</a>
+</p>
+
 A scroll-driven descent from the ocean surface to the floor of the Challenger Deep, 10,935 metres down.
 
 The page acts as the ocean. Scroll position maps to real depth. Light fades zone by zone, 43 real animals appear at the depths they actually live, and a fixed instrument panel reports live depth, pressure, temperature, and remaining light. The deeper you go, the emptier it gets.
@@ -35,3 +39,8 @@ Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build step.
 A few quick notes on the data and accessibility. The depths listed are typical depths for each species, not their absolute maximums. The temperature curve is a labelled approximation, but the depths and facts are verified.
 
 The creature visuals are illustrations rather than photographs. The drift animation is disabled under `prefers-reduced-motion` and only runs for creatures currently visible on screen. Every creature can also be focused with the Tab key to read what it is.
+
+---
+
+### More of my work
+If you enjoyed this project, check out my full portfolio and other experiments at [bytiago.com](https://bytiago.com/).
