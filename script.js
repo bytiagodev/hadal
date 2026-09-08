@@ -135,7 +135,14 @@ function renderCreatures() {
     img.dataset.src = `creatures/${creature.zone}-${creature.id}.webp`;
     imageObserver.observe(img);
     img.alt = creature.name;
-    img.loading = "lazy";
+    if (creature.depth === 0) {
+      img.src = `creatures/${creature.zone}-${creature.id}.webp`;
+      img.fetchPriority = "high";
+    } else {
+      img.dataset.src = `creatures/${creature.zone}-${creature.id}.webp`;
+      img.loading = "lazy";
+      imageObserver.observe(img);
+    }
     el.appendChild(img);
     ocean.appendChild(el);
   });
