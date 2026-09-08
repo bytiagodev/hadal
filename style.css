@@ -1,10 +1,3 @@
-/* ---------------------------------------------------------------
-   Hadal
-   Two materials only: water (the interpolated body background) and
-   housing (#0a0f11 opaque instrument hardware). All text sits on
-   housing, so contrast never depends on the depth colour ramp.
-   --------------------------------------------------------------- */
-
 :root {
   --housing: #0a0f11;
   --amber: #ffb454;
@@ -47,8 +40,6 @@ body {
   outline: 2px solid var(--amber);
   outline-offset: 4px;
 }
-
-/* ------------------------------------------------------------ HUD */
 
 #hud {
   position: fixed;
@@ -96,7 +87,7 @@ body {
   color: var(--ink);
 }
 
-/* Worst-case widths reserved in ch so no cell resizes mid-scroll. */
+/* Worst-case widths in ch, so no cell resizes mid-scroll. */
 .hud-value--depth {
   font-size: 24px;
   font-weight: 600;
@@ -113,14 +104,10 @@ body {
   min-width: 6ch;
 }
 
-/* ---------------------------------------------------------- OCEAN */
-
 .ocean {
   position: relative;
   height: 54675px; /* 10935m at 5px per metre */
 }
-
-/* ------------------------------------------------------- CREATURES */
 
 .creature {
   position: absolute;
@@ -154,8 +141,7 @@ body {
   }
 }
 
-/* Fact card. Opaque housing, so it is legible at any depth and over
-   any sprite. Hidden until hover, focus or tap. */
+/* Opaque housing, so the card is legible at any depth and over any sprite. */
 .creature-card {
   position: absolute;
   top: calc(100% + 10px);
@@ -221,15 +207,9 @@ body {
   color: var(--ink-muted);
 }
 
-/* ------------------------------------------- ZONES AND LANDMARKS */
-
-/* Text on water, nothing behind it. Contrast is carried by the colour
-   ramp itself: the 200m stop is dark enough that amber clears 5.6:1
-   from Twilight down. Only the surface marker needs dark ink.
-
-   pointer-events is off so a marker can never intercept a tap meant
-   for an animal, and the creature layout keeps sprites out from
-   behind the words. */
+/* Text on water, nothing behind it. The 200m colour stop is dark enough
+   that amber clears 5.6:1 from Twilight down. pointer-events is off so a
+   marker never intercepts a tap meant for an animal. */
 .zone,
 .landmark {
   position: absolute;
@@ -258,9 +238,7 @@ body {
   color: var(--ink-muted);
 }
 
-/* Tracked out enough to read as an instrument label, not so far that
-   the word stops being a word. Negative margin removes the trailing
-   space the last letter would otherwise carry. */
+/* Negative margin removes the trailing space the last letter carries. */
 .zone-letters {
   display: block;
   margin-right: -0.34em;
@@ -300,9 +278,7 @@ body {
   max-width: 50ch;
 }
 
-/* The surface marker sits on bright cyan, where amber is physically
-   incapable of clearing 1.1:1. It runs dark ink on clean water
-   instead, so the opening stays bright. */
+/* Amber on bright cyan measures 1.02:1. The surface marker runs dark ink. */
 .zone[data-ink="dark"] .zone-letters {
   color: #06202a;
 }
@@ -312,8 +288,6 @@ body {
 .zone[data-ink="dark"] .zone-depth {
   color: #0d2f3c;
 }
-
-/* -------------------------------------------------------- TABLET */
 
 @media (max-width: 900px) {
   .zone-letters {
@@ -328,8 +302,6 @@ body {
     padding: 64px 22px;
   }
 }
-
-/* --------------------------------------------------------- PHONE */
 
 @media (max-width: 560px) {
   #hud {
@@ -374,8 +346,6 @@ body {
     font-size: 14.5px;
   }
 }
-
-/* ----------------------------------------------- REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -1,20 +1,14 @@
-/* ---------------------------------------------------------------
-   Hadal. Scroll position maps to real ocean depth.
-   --------------------------------------------------------------- */
-
 const DEPTH_MAX = 10935;
 const OCEAN_HEIGHT = 54675; // 10935m at 5px per metre
 
-/* The distance the page can actually scroll. Derived from the fixed
-   ocean height rather than measuring scrollHeight, so absolutely
-   positioned children can never feed back into the mapping. */
+// Derived from the fixed ocean height, not scrollHeight, so absolutely
+// positioned children can never feed back into the mapping.
 function scrollSpan() {
   return Math.max(1, OCEAN_HEIGHT - window.innerHeight);
 }
 
-/* A depth's y position on the page. The half-viewport offset is what
-   makes the mapping honest: content at depth D sits in the middle of
-   the screen at exactly the moment the HUD reads D. */
+// The half-viewport offset is what makes the mapping honest: content at
+// depth D sits mid-screen at the moment the HUD reads D.
 function depthToY(depth) {
   return (depth / DEPTH_MAX) * scrollSpan() + window.innerHeight / 2;
 }
@@ -27,8 +21,6 @@ function formatDepth(depth) {
   return Math.round(depth).toLocaleString("en-GB");
 }
 
-// Linear congruential generator; multiplier/increment/modulus are fixed
-// constants chosen for a well-distributed sequence, not arbitrary.
 function seeded(seed) {
   let s = seed;
   return function () {
@@ -36,8 +28,6 @@ function seeded(seed) {
     return s / 4294967296;
   };
 }
-
-/* ------------------------------------------------------- SIZING */
 
 const SCALE_EXP = 0.45;
 let SCALE_LO = 0;
@@ -49,9 +39,8 @@ function initScale() {
   SCALE_HI = Math.max.apply(null, spread);
 }
 
-/* Size is the geometric mean of width and height, so every creature
-   with the same g covers the same area whatever its shape. The eye
-   compares area, not length. */
+// Geometric mean of width and height, so every creature with the same g
+// covers the same area whatever its shape. The eye compares area, not length.
 function creatureBox(creature, vw) {
   const gmax = Math.min(291, vw * 0.388);
   const gmin = Math.max(58, gmax * 0.27);
@@ -64,8 +53,6 @@ function creatureBox(creature, vw) {
   const clamp = Math.min(1, creature.iw / w, creature.ih / h);
   return { w: Math.round(w * clamp), h: Math.round(h * clamp) };
 }
-
-/* ------------------------------------------------------ RENDERING */
 
 const els = new Map();
 
@@ -84,9 +71,8 @@ const imageObserver = new IntersectionObserver(
   { rootMargin: "900px 0px" }
 );
 
-/* Drift only runs on creatures that are actually on screen. Forty-three
-   simultaneously animated layers is the difference between smooth and
-   not on a mid-range phone. */
+// Forty-three simultaneously animated layers is the difference between
+// smooth and not on a mid-range phone.
 const driftObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -113,8 +99,6 @@ function renderCreatures() {
     img.alt = creature.alt;
     img.decoding = "async";
 
-    // The surface creature is above the fold, so it loads eagerly.
-    // Everything else waits for the observer.
     if (creature.depth === 0) {
       img.src = src;
       img.fetchPriority = "high";
@@ -144,8 +128,6 @@ function renderCreatures() {
 
   ocean.appendChild(frag);
 }
-
-/* -------------------------------------------------------- LAYOUT */
 
 const LAYOUT_SEED = 20260813;
 const LAYOUT_GAP = 18;
@@ -205,7 +187,6 @@ function layoutCreatures() {
     el.style.left = Math.round(chosen) + "px";
     el.style.top = Math.round(y) + "px";
     el.style.width = box.w + "px";
-    // The fact card opens away from the nearest screen edge.
     el.dataset.side = chosen + box.w / 2 > vw / 2 ? "right" : "left";
     const img = el.querySelector("img");
     img.style.width = box.w + "px";
@@ -215,12 +196,9 @@ function layoutCreatures() {
   nudgeMarkers(placed.slice(markerRects.length));
 }
 
-/* On a narrow screen a marker column spans most of the width, so a
-   wide animal at the same depth has nowhere to go. The sperm whale is
-   at exactly 1000m, the Midnight boundary, and always will be. The
-   animal keeps its depth and the label steps aside, because a label
-   is allowed to sit beside the line it names and an animal is not
-   allowed to sit at the wrong depth. */
+// Where a wide animal shares a depth with a marker and no horizontal slot
+// exists, the label moves and the animal keeps its depth. A label may sit
+// beside the line it names; an animal may not sit at the wrong depth.
 const NUDGE_GAP = 20;
 const NUDGE_MAX = 260;
 
@@ -249,8 +227,6 @@ function nudgeMarkers(creatureRects) {
   });
 }
 
-/* ---------------------------------------------------------- DRIFT */
-
 const DRIFT_SEED = 71204221;
 const DRIFT_MIN_DURATION = 8;
 const DRIFT_MAX_DURATION = 20;
@@ -267,8 +243,6 @@ function assignDriftTiming() {
     el.style.setProperty("--drift-delay", delay.toFixed(2) + "s");
   });
 }
-
-/* --------------------------------------------- ZONES, LANDMARKS */
 
 const markers = [];
 
@@ -287,8 +261,7 @@ function renderZones() {
     depth.className = "zone-depth";
     depth.textContent = formatDepth(zone.depth) + "\u2009m";
 
-    // The name is split so it can be stretched edge to edge. Screen
-    // readers get the whole word from the hidden span instead.
+    // Split for tracking; screen readers get the whole word from the hidden span.
     const heading = document.createElement("h2");
     heading.className = "zone-name";
     heading.innerHTML = '<span class="visually-hidden"></span>';
@@ -346,8 +319,8 @@ function renderLandmarks() {
   });
 }
 
-/* Markers are centred on their depth, except the surface one, which
-   would otherwise sit halfway down the opening screen. */
+// Centred on their depth, except the surface marker, which would otherwise
+// sit halfway down the opening screen.
 function positionMarkers() {
   markers.forEach((marker) => {
     if (marker.depth === 0) {
@@ -360,9 +333,8 @@ function positionMarkers() {
   });
 }
 
-/* Marker text blocks are obstacles for the creature layout. Pale ink
-   over a bright sprite fails no matter what, so the only real fix is
-   for no sprite to be there. */
+// Marker text sits directly on the water, and ink over a bright sprite fails
+// no matter what, so the layout keeps sprites out from behind the words.
 const MARKER_MARGIN = 16;
 let markerRects = [];
 
@@ -380,8 +352,6 @@ function measureMarkers() {
     };
   });
 }
-
-/* ------------------------------------------------------- COLOURS */
 
 const COLOUR_STOPS = [
   { depth: 0, r: 142, g: 207, b: 223 },
@@ -408,8 +378,6 @@ function getColour(depth) {
   return COLOUR_STOPS[COLOUR_STOPS.length - 1];
 }
 
-/* -------------------------------------------------- INSTRUMENTS */
-
 function getPressure(depth) {
   return 1 + depth / 10;
 }
@@ -432,9 +400,8 @@ const readouts = {
   light: document.getElementById("hud-light"),
 };
 
-/* Every frame reads the scroll position once and writes only the
-   values that actually changed. Writing unchanged strings and colours
-   costs style recalculation for nothing. */
+// Writes only what changed; unchanged strings and colours still cost a
+// style recalculation.
 const last = { colour: "", depth: "", pressure: "", temp: "", light: "" };
 
 function write(key, node, value) {
@@ -460,10 +427,8 @@ function tick() {
   write("light", readouts.light, getLight(depth) + "\u2009%");
 }
 
-/* ---------------------------------------------------- INTERACTION */
-
-/* Hover handles the desktop case in CSS. Touch needs a real toggle,
-   because a tap that only triggers :hover leaves the card stuck open. */
+// Hover is handled in CSS. Touch needs a real toggle, because a tap that
+// only triggers :hover leaves the card stuck open.
 function initCards() {
   document.addEventListener("click", (event) => {
     const node = event.target;
@@ -481,8 +446,6 @@ function initCards() {
       .forEach((el) => el.classList.remove("is-open"));
   });
 }
-
-/* ------------------------------------------------------- STARTUP */
 
 let resizeTimer = null;
 function onResize() {
