@@ -1,3 +1,18 @@
+/* ---------------------------------------------------------------
+   Hadal
+   Two materials only: water (the interpolated body background) and
+   housing (#0a0f11 opaque instrument hardware). All text sits on
+   housing, so contrast never depends on the depth colour ramp.
+   --------------------------------------------------------------- */
+
+:root {
+  --housing: #0a0f11;
+  --amber: #ffb454;
+  --ink: #e2ecee;
+  --ink-muted: #8fa5ac;
+  --hairline: rgba(255, 255, 255, 0.11);
+}
+
 *,
 *::before,
 *::after {
@@ -6,127 +21,117 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: #8ecfdf;
   overflow-x: hidden;
-  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-family: "Newsreader", Georgia, serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+}
+
+/* ------------------------------------------------------------ HUD */
 
 #hud {
   position: fixed;
-  top: max(20px, env(safe-area-inset-top));
-  left: max(20px, env(safe-area-inset-left));
-  z-index: 10;
-  width: 172px;
-  padding: 10px 12px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  background: var(--housing);
+  border-top: 1px solid var(--hairline);
+  box-shadow: 0 -12px 32px -16px rgba(0, 0, 0, 0.85);
+  padding: 9px max(18px, env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom))
+    max(18px, env(safe-area-inset-right));
+}
+
+.hud-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.hud-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background: #0a0f11;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 5px;
-  box-shadow:
-    0 8px 28px -12px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.hud-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.hud-rule {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.07);
+  gap: 4px;
 }
 
 .hud-label {
-  font-size: 9.5px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.16em;
-  color: #7d9198;
+  line-height: 1;
+  color: var(--ink-muted);
 }
 
 .hud-value {
-  display: inline-block;
-  text-align: right;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1;
-  color: #d8e4e6;
+  color: var(--ink);
 }
 
+/* Worst-case widths reserved in ch so no cell resizes mid-scroll. */
 .hud-value--depth {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
-  color: #ffb454;
-  min-width: 7.5ch; /* 10935 m */
+  color: var(--amber);
+  min-width: 7.5ch;
 }
 .hud-value--pressure {
-  min-width: 10.5ch; /* 1094.5 atm */
+  min-width: 10.5ch;
 }
 .hud-value--temp {
-  min-width: 8ch; /* -1.5 °C */
+  min-width: 8ch;
 }
 .hud-value--light {
-  min-width: 6ch; /* 100 % */
+  min-width: 6ch;
 }
+
+/* ---------------------------------------------------------- OCEAN */
 
 .ocean {
-  height: 54675px;
   position: relative;
+  height: 54675px; /* 10935m at 5px per metre */
 }
 
-.zone-boundary, .landmark {
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.zone-boundary {
-  border-top: 1px solid #1a4a5e;
-  color: #1a4a5e;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  padding-top: 6px;
-  padding-left: 210px;
-}
-
-.zone-boundary[data-zone="midnight"] .zone-name,
-.zone-boundary[data-zone="midnight"] .zone-copy,
-.zone-boundary[data-zone="abyss"] .zone-name,
-.zone-boundary[data-zone="abyss"] .zone-copy,
-.zone-boundary[data-zone="hadal"] .zone-name,
-.zone-boundary[data-zone="hadal"] .zone-copy {
-  color: #ffb454;
-}
-
-.zone-boundary[data-zone="midnight"],
-.zone-boundary[data-zone="abyss"],
-.zone-boundary[data-zone="hadal"] {
-  border-top-color: #ffb454;
-}
-
-.zone-name {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.landmark {
-  color: #d8e4e6;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  max-width: 360px;
-  left: 50%;
-  padding-bottom: 80px;
-}
+/* ------------------------------------------------------- CREATURES */
 
 .creature {
   position: absolute;
-  right: auto;
+  z-index: 1;
+  animation: drift var(--drift-duration, 12s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0s);
+  animation-play-state: paused;
+}
+
+.creature.is-onscreen {
+  animation-play-state: running;
 }
 
 .creature img {
@@ -136,11 +141,12 @@ body {
 
 .creature.is-bio img {
   filter: drop-shadow(0 0 6px rgba(180, 240, 255, 0.55))
-          drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
+    drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
 }
 
 @keyframes drift {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -148,19 +154,238 @@ body {
   }
 }
 
-.creature {
-  animation: drift var(--drift-duration, 12s) ease-in-out infinite;
-  animation-delay: var(--drift-delay, 0s);
+/* Fact card. Opaque housing, so it is legible at any depth and over
+   any sprite. Hidden until hover, focus or tap. */
+.creature-card {
+  position: absolute;
+  top: calc(100% + 10px);
+  z-index: 5;
+  width: max-content;
+  max-width: min(280px, 74vw);
+  padding: 10px 12px 11px;
+  background: var(--housing);
+  border: 1px solid var(--hairline);
+  border-radius: 5px;
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
 }
+
+.creature[data-side="left"] .creature-card {
+  left: 0;
+}
+.creature[data-side="right"] .creature-card {
+  right: 0;
+}
+
+.creature:hover .creature-card,
+.creature:focus-visible .creature-card,
+.creature.is-open .creature-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.creature:hover,
+.creature:focus-within,
+.creature.is-open {
+  z-index: 6;
+}
+
+.creature-name {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.creature-fact {
+  display: block;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.creature-depth {
+  display: block;
+  margin-top: 7px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+
+/* ------------------------------------------- ZONES AND LANDMARKS */
+
+/* Text on water, nothing behind it. Contrast is carried by the colour
+   ramp itself: the 200m stop is dark enough that amber clears 5.6:1
+   from Twilight down. Only the surface marker needs dark ink.
+
+   pointer-events is off so a marker can never intercept a tap meant
+   for an animal, and the creature layout keeps sprites out from
+   behind the words. */
+.zone,
+.landmark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 70px 24px;
+  pointer-events: none;
+}
+
+.zone-inner,
+.landmark-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.zone-depth,
+.landmark-depth {
+  display: block;
+  margin-bottom: 12px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--ink-muted);
+}
+
+/* Tracked out enough to read as an instrument label, not so far that
+   the word stops being a word. Negative margin removes the trailing
+   space the last letter would otherwise carry. */
+.zone-letters {
+  display: block;
+  margin-right: -0.34em;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  line-height: 1;
+  color: var(--amber);
+}
+
+.zone-copy {
+  margin-top: 16px;
+  max-width: 42ch;
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.landmark-inner {
+  max-width: 46ch;
+}
+
+.landmark p {
+  font-size: 20px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.landmark p + p {
+  margin-top: 1em;
+}
+
+.landmark--floor .landmark-inner {
+  max-width: 50ch;
+}
+
+/* The surface marker sits on bright cyan, where amber is physically
+   incapable of clearing 1.1:1. It runs dark ink on clean water
+   instead, so the opening stays bright. */
+.zone[data-ink="dark"] .zone-letters {
+  color: #06202a;
+}
+.zone[data-ink="dark"] .zone-copy {
+  color: #06202a;
+}
+.zone[data-ink="dark"] .zone-depth {
+  color: #0d2f3c;
+}
+
+/* -------------------------------------------------------- TABLET */
+
+@media (max-width: 900px) {
+  .zone-letters {
+    font-size: 21px;
+  }
+  .zone-copy,
+  .landmark p {
+    font-size: 18px;
+  }
+  .zone,
+  .landmark {
+    padding: 64px 22px;
+  }
+}
+
+/* --------------------------------------------------------- PHONE */
+
+@media (max-width: 560px) {
+  #hud {
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  }
+  .hud-inner {
+    gap: 10px;
+  }
+  .hud-label {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+  .hud-value {
+    font-size: 12.5px;
+  }
+  .hud-value--depth {
+    font-size: 19px;
+  }
+
+  .zone,
+  .landmark {
+    padding: 54px 18px;
+  }
+  .zone-letters {
+    font-size: 17px;
+    letter-spacing: 0.26em;
+    margin-right: -0.26em;
+  }
+  .zone-depth,
+  .landmark-depth {
+    margin-bottom: 11px;
+    font-size: 10px;
+  }
+  .zone-copy {
+    margin-top: 16px;
+    font-size: 17px;
+  }
+  .landmark p {
+    font-size: 17px;
+  }
+  .creature-fact {
+    font-size: 14.5px;
+  }
+}
+
+/* ----------------------------------------------- REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
   .creature {
     animation: none;
+  }
+  .creature-card {
+    transition: none;
+    transform: none;
   }
 }
