@@ -2,39 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hadal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>Hadal. Scroll to the bottom of the sea.</title>
+    <meta
+      name="description"
+      content="A scroll-driven descent from the ocean surface to the floor of the Challenger Deep, 10,935 metres down. Real creatures at their real depths, with live depth, pressure, temperature and light."
+    />
+    <meta name="theme-color" content="#0a0f11" />
+    <link rel="canonical" href="https://bytiagodev.github.io/hadal/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hadal" />
+    <meta property="og:description" content="Scroll to the bottom of the sea. 10,935 metres, 43 real animals, at the depths they actually live." />
+    <meta property="og:url" content="https://bytiagodev.github.io/hadal/" />
+    <meta property="og:image" content="https://bytiagodev.github.io/hadal/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The word Hadal over a dark ocean gradient with deep-sea creatures descending into black." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="favicon.svg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <aside id="hud" aria-live="off">
-      <div class="hud-row hud-row--primary">
-        <span class="hud-label">DEPTH</span>
-        <span class="hud-value hud-value--depth" id="hud-depth">0 m</span>
-      </div>
-      <div class="hud-rule"></div>
-      <div class="hud-row">
-        <span class="hud-label">PRESSURE</span>
-        <span class="hud-value hud-value--pressure" id="hud-pressure"
-          >1.0 atm</span
-        >
-      </div>
-      <div class="hud-row">
-        <span class="hud-label">TEMP</span>
-        <span class="hud-value hud-value--temp" id="hud-temp">20.0 °C</span>
-      </div>
-      <div class="hud-row">
-        <span class="hud-label">LIGHT</span>
-        <span class="hud-value hud-value--light" id="hud-light">100 %</span>
+    <h1 class="visually-hidden">Hadal: a descent to the bottom of the sea</h1>
+    <p class="visually-hidden">
+      Scroll down to descend. The instrument panel reports live depth, pressure,
+      temperature and remaining light. Each animal can be focused with the Tab
+      key to read what it is.
+    </p>
+
+    <main class="ocean"></main>
+
+    <aside id="hud" aria-label="Dive instruments" aria-live="off">
+      <div class="hud-inner">
+        <div class="hud-field hud-field--primary">
+          <span class="hud-label">DEPTH</span>
+          <span class="hud-value hud-value--depth" id="hud-depth">0 m</span>
+        </div>
+        <div class="hud-field">
+          <span class="hud-label">PRESSURE</span>
+          <span class="hud-value hud-value--pressure" id="hud-pressure">1.0 atm</span>
+        </div>
+        <div class="hud-field">
+          <span class="hud-label">TEMP</span>
+          <span class="hud-value hud-value--temp" id="hud-temp">20.0 °C</span>
+        </div>
+        <div class="hud-field">
+          <span class="hud-label">LIGHT</span>
+          <span class="hud-value hud-value--light" id="hud-light">100 %</span>
+        </div>
       </div>
     </aside>
-    <main class="ocean"></main>
+
     <script src="data.js"></script>
     <script src="script.js"></script>
   </body>
