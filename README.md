@@ -14,7 +14,7 @@ Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build step.
 
 **Contrast.** The background travels from bright cyan at the surface to near-black in the trench, so no fixed text colour survives the full ramp. Interpolating the text colour with depth does not help either, because every colour ramp has a crossing point where the text and the water match. The answer turned out to be two different ones. The instrument panel and the creature captions sit on an opaque housing at `#0a0f11`, which holds a 10.9:1 contrast ratio for the amber text and 16:1 for the body ink at every depth, measured, with nothing to tune. The zone markers and landmark captions sit on the water itself, which only works because the 200m colour stop was darkened until amber clears 5.6:1 from Twilight down. The surface marker is the one place neither approach fits: amber on bright cyan measures 1.02:1, so it runs dark ink instead.
 
-**Scale.** The dataset spans 556:1, from a 25 metre blue whale to a 4.5 centimetre amphipod. Standard size buckets could not carry that range. Scaling purely by length also looked wrong, because the eye compares rendered area rather than length. A 2.5 metre sunfish read as larger than a 16 metre sperm whale. Size is now derived from the geometric mean of width and height, with each crop's own aspect ratio divided back out, so every creature at a given step covers the same area whatever its shape. Positions are laid out by a seeded collision sweep, so the scatter is arbitrary but identical on every visit.
+**Scale.** The dataset spans 556:1, from a 25 metre blue whale to a 4.5 centimetre amphipod. Size buckets could not carry that range, and scaling purely by length was no better: a 2.5 metre sunfish and a 4.5 metre great white came out at almost the same rendered area, and the disc read as the larger animal. Size now comes from a target area derived from each creature's real length, with its own crop proportions deciding how that area is distributed between width and height. The mapping is deliberately compressed rather than proportional, because in true proportion the amphipod would be sub-pixel. Positions are laid out by a seeded collision sweep, so the scatter is arbitrary but identical on every visit.
 
 ---
 
@@ -26,7 +26,7 @@ Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build step.
 | `style.css` | Two materials: water and housing |
 | `script.js` | Depth mapping, sizing, layout, and render loop |
 | `data.js` | 43 creatures, 5 zone boundaries, and 5 landmarks |
-| `creatures/` | 43 WebP sprites, 1.2MB total |
+| `creatures/` | 43 WebP sprites, 1.07MB total |
 
 ---
 
