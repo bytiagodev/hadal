@@ -44,7 +44,7 @@ const CREATURES = [
   { name: "Tripod fish",           id: "tripod-fish",           depth: 5600, zone: "abyss",    bio: false, lengthM: 0.7,    axis: "h", iw: 259, ih: 239, alt: "A slender fish propped above the seabed on three long stiffened fin rays.", fact: "Stands on three stiffened fin rays, facing the current, waiting for food to arrive." },
 
   { name: "Supergiant amphipod",   id: "supergiant-amphipod",   depth: 7000, zone: "hadal",    bio: false, lengthM: 0.28,   axis: "w", iw: 448, ih: 147, alt: "A pale shrimp-like crustacean with a curved segmented body and long antennae.", fact: "A scavenging crustacean that reaches 30cm, ten times the size of its shallow cousins." },
-  { name: "Mariana snailfish",     id: "mariana-snailfish",     depth: 8000, zone: "hadal",    bio: false, lengthM: 0.25,   axis: "w", iw: 388, ih: 121, alt: "A small translucent pink fish with a soft tadpole-shaped body and no scales.", fact: "No scales, no swim bladder. A body soft enough that the pressure has nothing to crush." },
+  { name: "Mariana snailfish",     id: "mariana-snailfish",     depth: 8000, zone: "hadal",    bio: false, lengthM: 0.25,   axis: "w", iw: 445, ih: 93, alt: "A small pale fish with a long tapering body and fins that run almost its whole length.", fact: "No scales, no swim bladder. A body soft enough that the pressure has nothing to crush." },
   { name: "Hirondellea gigas",     id: "hirondellea-gigas",     depth: 10900,zone: "hadal",    bio: false, lengthM: 0.045,  axis: "w", iw: 265, ih: 82, alt: "A tiny pale amphipod with a hunched segmented shell and many small legs.", fact: "Swarms bait on the trench floor within minutes. Its gut can digest sunken wood." },
 ];
 
