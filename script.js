@@ -88,7 +88,7 @@ function renderCreatures() {
 
   CREATURES.forEach((creature) => {
     const el = document.createElement("figure");
-    el.className = "creature" + (creature.bio ? " is-bio" : "");
+    el.className = "creature";
     el.dataset.id = creature.id;
     el.dataset.zone = creature.zone;
     el.dataset.side = "left";
@@ -97,7 +97,19 @@ function renderCreatures() {
     const img = document.createElement("img");
     const src = "creatures/" + creature.zone + "-" + creature.id + ".webp";
     img.alt = creature.alt;
+
+    // drop-shadow follows the sprite's alpha, but only once there are pixels
+    // to read. Applied before decode, the browser takes the shadow from the
+    // layout box and caches that rectangle, so the glow waits for decode.
     img.decoding = "async";
+
+    if (creature.bio) {
+      img.addEventListener("load", () => {
+        const glow = () => el.classList.add("is-bio");
+        if (img.decode) img.decode().then(glow, glow);
+        else glow();
+      });
+    }
 
     if (creature.depth === 0) {
       img.src = src;

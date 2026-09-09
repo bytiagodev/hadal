@@ -126,9 +126,14 @@ body {
   object-fit: contain;
 }
 
+/* iOS Safari rasterises a drop-shadow from the layer box, not the sprite's
+   alpha, when the filtered image sits inside a transform-animated ancestor.
+   Its own layer makes WebKit compute the filter against the sprite. */
 .creature.is-bio img {
   filter: drop-shadow(0 0 6px rgba(180, 240, 255, 0.55))
     drop-shadow(0 0 14px rgba(120, 220, 255, 0.35));
+  will-change: filter;
+  transform: translateZ(0);
 }
 
 @keyframes drift {
